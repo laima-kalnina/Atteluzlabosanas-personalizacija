@@ -1,0 +1,207 @@
+<style>
+    html body {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        overflow: hidden
+    }
+
+    .form-tab,
+    #hidden-canvas {
+        display: none;
+    }
+
+    #img-div {
+        box-sizing: border-box;
+
+    }
+
+    .slider-container {
+        width: 100%;
+        /* padding: 20px;
+  margin-top: 10px; */
+    }
+
+    .bg-gray {
+        background-color: #f2f2f2;
+    }
+
+    #togglePrediction,
+    #nextImage,
+    #nextTab {
+        border-radius: 30px;
+    }
+
+    #togglePredicted {
+        border-radius: 30px 0px 0px 30px;
+
+    }
+
+    #toggleUser {
+        border-radius: 0px 30px 30px 0px;
+    }
+
+    .form-control-range {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 5px;
+        border-radius: 5px;
+        background: linear-gradient(to right, rgb(46, 46, 46), rgb(201, 201, 201));
+        outline: none;
+        opacity: 1;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+        margin-top: 10px;
+    }
+
+    #sliders label {
+        padding-right: 10px;
+        width: 120px;
+        text-transform: capitalize
+    }
+
+    #sliders h6 {
+        /* padding-right: 10px;
+   padding-top: 10px;
+      width: 100px;
+      text-align: right; */
+    }
+
+    #exposure {
+        background: linear-gradient(to right, #1a1a1a, #808080, #e6e6e6);
+    }
+
+    #contrast {
+        background: linear-gradient(to right, #1a1a1a, #808080, #e6e6e6);
+    }
+
+    #highlights {
+        background: linear-gradient(to right, #999999, #b3b3b3, #999999);
+    }
+
+    #shadows {
+        background: linear-gradient(to right, #333333, #4d4d4d, #808080);
+    }
+
+    #whites {
+        background: linear-gradient(to right, #808080, #b3b3b3, #e6e6e6);
+    }
+
+    #blacks {
+        background: linear-gradient(to right, #1a1a1a, #4d4d4d, #808080);
+    }
+
+    #temperature {
+        background: linear-gradient(to right, blue, rgb(255, 174, 0));
+    }
+
+    #tint {
+        background: linear-gradient(to right, green, magenta);
+    }
+
+    #saturation {
+        background: linear-gradient(to right, gray, red);
+    }
+
+    #vibrance {
+        background: linear-gradient(to right, gray, rgb(255, 102, 0));
+    }
+
+
+    #red-hue {
+        background: linear-gradient(to right, #dd6edd, #dd6e6e, #dddd6e);
+    }
+
+    #red-saturation {
+        background: linear-gradient(to right, #a5a5a5, #dd6e6e, #ff4c4c);
+    }
+
+    #red-luminance {
+        background: linear-gradient(to right, #662b2b, #dd6e6e, #fee3e3);
+    }
+
+
+    #yellow-hue {
+        background: linear-gradient(to right, #dd6e6e, #dddd6e, #6edd6e);
+    }
+
+    #yellow-saturation {
+        background: linear-gradient(to right, #a5a5a5, #dddd6e, #feff4c);
+    }
+
+    #yellow-luminance {
+        background: linear-gradient(to right, #66662b, #dddd6e, #fefee3);
+    }
+
+    #green-hue {
+        background: linear-gradient(to right, #dddd6e, #6edd6e, #6edddd);
+    }
+
+    #green-saturation {
+        background: linear-gradient(to right, #a5a5a5, #6edd6e, #4cff4c);
+    }
+
+    #green-luminance {
+        background: linear-gradient(to right, #2b662b, #6edd6e, #e3fee3);
+    }
+
+    #cyan-hue {
+        background: linear-gradient(to right, #6edd6e, #6edddd, #6e6edd);
+    }
+
+    #cyan-saturation {
+        background: linear-gradient(to right, #a5a5a5, #6edddd, #4cfeff);
+    }
+
+    #cyan-luminance {
+        background: linear-gradient(to right, #2b6666, #6edddd, #e3fefe);
+    }
+
+    #blue-hue {
+        background: linear-gradient(to right, #6edddd, #6e6edd, #dd6edd);
+    }
+
+    #blue-saturation {
+        background: linear-gradient(to right, #a5a5a5, #6e6edd, #4c4cff);
+    }
+
+    #blue-luminance {
+        background: linear-gradient(to right, #2b2b66, #6e6edd, #e3e3fe);
+    }
+
+    #magenta-hue {
+        background: linear-gradient(to right, #6e6edd, #dd6edd, #dd6e6e);
+    }
+
+    #magenta-saturation {
+        background: linear-gradient(to right, #a5a5a5, #dd6edd, #ff4cfe);
+    }
+
+    #magenta-luminance {
+        background: linear-gradient(to right, #662b66, #dd6edd, #fee3fe);
+    }
+
+
+
+    .form-control-range:hover {
+        opacity: 1;
+    }
+
+    .form-control-range::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: rgb(0, 0, 0);
+        cursor: pointer;
+    }
+
+    .form-control-range::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: rgb(0, 0, 0);
+        cursor: pointer;
+    }
+</style>

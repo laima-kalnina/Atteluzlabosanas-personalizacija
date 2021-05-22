@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <base target="_self">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Image enhancement personalization</title>
+</head>
+<?!= include("form-css") ?>
+<?!= include("lang."+language) ?>
+
+<body class="p-0 m-0" onresize="resize()">
+    <div id="container" class="container-fluid p-0">
+
+        <div class="form-tab">
+            <div class="container-fluid">
+                <?!= include("intro") ?>
+            </div>
+        </div>
+
+        <!-- Image editing -->
+        <div class="form-tab">
+            <div class="row ">
+
+                <div id="img-div" class="col-sm-12 col-md-6 col-xl-6">
+
+                    <canvas id="canvas" class="p-0" onmousedown="showOriginal()" onmouseup="editImage()"></canvas>
+
+                    <div class="container-fluid">
+
+                        <span id="imgCount" class="w-100"><span>
+                    </div>
+                    <canvas id="hidden-canvas" class="p-0" width="128px" height="128px"></canvas>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-6">
+
+                    <div class="container-fluid p-sm-0 p-md-4" id="sliders">
+                        <?!= include("sliders") ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-tab">
+            <div class="container-fluid">
+                <?!= include("rate") ?>
+            </div>
+        </div>
+
+        <div class="form-tab">
+            <div class="container-fluid mb-4">
+                <?!= include("user") ?>
+            </div>
+        </div>
+
+        <div class="form-tab">
+            <div class="container-fluid mb-4">
+                <?!= include("outro") ?>
+            </div>
+        </div>
+
+
+        <div class="row justify-content-end">
+            <div class="col-sm-12 col-md-6  col-xl-6 offset-md-6 offset-xl-6">
+                <div class="container-fluid">
+
+                    <button id="nextTab" onclick="nextTab(1)" class="btn btn-primary btn-lg btn-block"></button>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <?!= include("scripts") ?>
+    <?!= include("adjustments") ?>
+    <?!= include("ui") ?>
+    <?!= include("editImage") ?>
+    <?!= include("personalization") ?>
+
+
+</body>
+
+</html>

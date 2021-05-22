@@ -1,0 +1,210 @@
+<script>
+    let alladj = [];
+    let histograms = [];
+    let s;
+
+
+    function updateML(adjustment) {
+        let value = adjustment.clone();
+        alladj.unshift(value);
+        histograms.push(new Histogram(hcanvas));
+    }
+
+
+    function predictML() {
+        let predictedAdjustment = new Adjustments();
+        let n = new Histogram(hcanvas);
+        let k = [];
+        let kmax = 0;
+
+
+        for (let i = 0; i < histograms.length; i++) {
+            k[i] = 300 - new Similarity(n, histograms[i]).sum();
+            k[i] += 300 - new Similarity(histograms[i], n).sum();
+
+            kmax += k[i];
+
+        }
+        k = k.map(x => x / (kmax));
+
+        for (let i = 0; i < histograms.length; i++) {
+
+            predictedAdjustment.light.exposure.value += alladj[i].light.exposure.value * k[i];
+            predictedAdjustment.light.contrast.value += alladj[i].light.contrast.value * k[i];
+            predictedAdjustment.light.highlights.value += alladj[i].light.highlights.value * k[i];
+            predictedAdjustment.light.shadows.value += alladj[i].light.shadows.value * k[i];
+            predictedAdjustment.light.whites.value += alladj[i].light.whites.value * k[i];
+            predictedAdjustment.light.blacks.value += alladj[i].light.blacks.value * k[i];
+
+            predictedAdjustment.color.temperature.value += alladj[i].color.temperature.value * k[i];
+            predictedAdjustment.color.tint.value += alladj[i].color.tint.value * k[i];
+            predictedAdjustment.color.saturation.value += alladj[i].color.saturation.value * k[i];
+            predictedAdjustment.color.vibrance.value += alladj[i].color.vibrance.value * k[i];
+
+            predictedAdjustment.hsl.red.hue.value += alladj[i].hsl.red.hue.value * k[i];
+            predictedAdjustment.hsl.red.saturation.value += alladj[i].hsl.red.saturation.value * k[i];
+            predictedAdjustment.hsl.red.luminance.value += alladj[i].hsl.red.luminance.value * k[i];
+
+            predictedAdjustment.hsl.yellow.hue.value += alladj[i].hsl.yellow.hue.value * k[i];
+            predictedAdjustment.hsl.yellow.saturation.value += alladj[i].hsl.yellow.saturation.value * k[i];
+            predictedAdjustment.hsl.yellow.luminance.value += alladj[i].hsl.yellow.luminance.value * k[i];
+
+            predictedAdjustment.hsl.green.hue.value += alladj[i].hsl.green.hue.value * k[i];
+            predictedAdjustment.hsl.green.saturation.value += alladj[i].hsl.green.saturation.value * k[i];
+            predictedAdjustment.hsl.green.luminance.value += alladj[i].hsl.green.luminance.value * k[i];
+
+            predictedAdjustment.hsl.cyan.hue.value += alladj[i].hsl.cyan.hue.value * k[i];
+            predictedAdjustment.hsl.cyan.saturation.value += alladj[i].hsl.cyan.saturation.value * k[i];
+            predictedAdjustment.hsl.cyan.luminance.value += alladj[i].hsl.cyan.luminance.value * k[i];
+
+            predictedAdjustment.hsl.blue.hue.value += alladj[i].hsl.blue.hue.value * k[i];
+            predictedAdjustment.hsl.blue.saturation.value += alladj[i].hsl.blue.saturation.value * k[i];
+            predictedAdjustment.hsl.blue.luminance.value += alladj[i].hsl.blue.luminance.value * k[i];
+
+            predictedAdjustment.hsl.magenta.hue.value += alladj[i].hsl.magenta.hue.value * k[i];
+            predictedAdjustment.hsl.magenta.saturation.value += alladj[i].hsl.magenta.saturation.value * k[i];
+            predictedAdjustment.hsl.magenta.luminance.value += alladj[i].hsl.magenta.luminance.value * k[i];
+
+        }
+
+        return predictedAdjustment;
+    }
+
+    class Histogram {
+        constructor(canvas, adj = null) {
+            this.imgd = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
+
+            this.i = new Array(256).fill(0);
+
+            this.r = new Array(256).fill(0);
+            this.g = new Array(256).fill(0);
+            this.b = new Array(256).fill(0);
+
+            this.h = new Array(360).fill(0);
+            this.s = new Array(100).fill(0);
+            this.v = new Array(100).fill(0);
+
+            this.getHistogram();
+
+        }
+
+        getHistogram() {
+            var pix = this.imgd.data;
+
+            // Loop over each pixel and invert the color.
+            for (var i = 0, n = pix.length; i < n; i += 4) {
+                let intensity = Math.floor(0.0722 * pix[i + 2] + 0.715 * pix[i + 1] + 0.212 * pix[i]);
+                this.i[intensity]++;
+
+                this.r[pix[i]]++;  // red
+                this.g[pix[i + 1]]++;  // green
+                this.b[pix[i + 2]]++; // blue
+
+                let hsv = Caman.Convert.rgbToHSV(pix[i], pix[i + 1], pix[i + 2]);
+
+                this.h[Math.floor(hsv.h * 360)]++;
+                this.s[Math.floor(hsv.s * 99)]++;
+                this.v[Math.floor(hsv.v * 99)]++;
+            }
+
+            this.i = this.i.map(x => (x + 0.0001) / (pix.length / 4));
+
+            this.r = this.r.map(x => (x + 0.0001) / (pix.length / 4));
+            this.g = this.g.map(x => (x + 0.0001) / (pix.length / 4));
+            this.b = this.b.map(x => (x + 0.0001) / (pix.length / 4));
+
+            this.h = this.h.map(x => (x + 0.0001) / (pix.length / 4));
+            this.s = this.s.map(x => (x + 0.0001) / (pix.length / 4));
+            this.v = this.v.map(x => (x + 0.0001) / (pix.length / 4));
+        }
+
+
+    }
+
+    class Similarity {
+        constructor(d1, d2) {
+            this.kl_i = 0;
+
+            this.kl_r = 0;
+            this.kl_g = 0;
+            this.kl_b = 0;
+
+            this.kl_h = 0;
+            this.kl_s = 0;
+            this.kl_v = 0;
+
+            this.l2_i = 0;
+
+            this.l2_r = 0;
+            this.l2_g = 0;
+            this.l2_b = 0;
+
+            this.l2_h = 0;
+            this.l2_s = 0;
+            this.l2_v = 0;
+
+
+            //console.log(d1);
+            //console.log(d2);
+
+
+            for (let i = 0; i < d1.h.length; i++) {
+                this.kl_h += d1.h[i] * Math.log2(d1.h[i] / d2.h[i]);
+
+                this.l2_h += Math.sqrt(d1.h[i] ^ 2 + d2.h[i] ^ 2);
+
+                if (i < d1.r.length) {
+                    this.kl_i += d1.i[i] * Math.log2(d1.i[i] / d2.i[i]);
+
+                    this.l2_i += Math.sqrt(d1.i[i] ^ 2 + d2.i[i] ^ 2);
+
+
+                    this.kl_r += d1.r[i] * Math.log2(d1.r[i] / d2.r[i]);
+                    this.kl_g += d1.g[i] * Math.log2(d1.g[i] / d2.g[i]);
+                    this.kl_b += d1.b[i] * Math.log2(d1.b[i] / d2.b[i]);
+
+                    this.l2_r += Math.sqrt(d1.r[i] ^ 2 + d2.r[i] ^ 2);
+                    this.l2_g += Math.sqrt(d1.g[i] ^ 2 + d2.g[i] ^ 2);
+                    this.l2_b += Math.sqrt(d1.b[i] ^ 2 + d2.b[i] ^ 2);
+
+
+                    if (i < d1.s.length) {
+                        this.kl_s += d1.s[i] * Math.log2(d1.s[i] / d2.s[i]);
+                        //console.log(this.kl_s +"\t"+ d1.s[i] + "\t"+d2.s[i]);
+                        this.kl_v += d1.v[i] * Math.log2(d1.v[i] / d2.v[i]);
+
+                        this.l2_s += Math.sqrt(d1.s[i] ^ 2 + d2.s[i] ^ 2);
+                        this.l2_v += Math.sqrt(d1.v[i] ^ 2 + d2.v[i] ^ 2);
+                    }
+                }
+            }
+        }
+
+        sum() {
+            let sum = 0;
+            sum += this.kl_i;
+            sum += this.l2_i;
+
+            sum += this.kl_r;
+            sum += this.kl_g;
+            sum += this.kl_b;
+
+            sum += this.kl_h;
+            sum += this.kl_s;
+            sum += this.kl_v;
+
+            sum += this.l2_r;
+            sum += this.l2_g;
+            sum += this.l2_b;
+
+            sum += this.l2_h;
+            sum += this.l2_s;
+            sum += this.l2_v;
+
+            return sum;
+        }
+    }
+
+
+
+</script>

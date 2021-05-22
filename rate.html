@@ -1,0 +1,153 @@
+<div class="">
+    <div class="row font-weight-bold">
+        <div class="col-sm-12 col-md-4">
+            <p id="rate-title"></p>
+        </div>
+        <div id="rate-top-label" class="col-sm-12 col-md-8  pb-0 mb-0 pr-5">
+
+        </div>
+    </div>
+</div>
+
+<div id="rate-questions" class="">
+
+</div>
+
+<div class="">
+    <label id="coment-text"></label>
+    <textarea class="w-100" id="comment"></textarea>
+</div>
+
+<script>
+    function ratingEmpty() {
+        if (validateRating()) {
+            document.getElementById("nextTab").disabled = false;
+
+        }
+        else {
+            document.getElementById("nextTab").disabled = true;
+        }
+    }
+
+    function validateRating() {
+        let values = getRating();
+        for (let i = 0; i < values.length; i++) {
+            if (values[i] == null)
+                return false;
+        }
+        return true;
+    }
+    function getRating() {
+        var values = [];
+        let n = document.getElementById("rate-questions").children.length;
+        for (let i = 0; i < n; i++) {
+            let q = $("input:radio[name=q" + i + "]:checked").val();
+            values.push(q);
+        }
+
+        let coment = document.getElementById("comment");
+        values.push(comment.value + " ");
+        return values;
+    }
+
+    generateQUestions();
+
+    function generateQUestions() {
+        document.getElementById("rate-title").innerHTML = lang.rate.toplabel;
+        document.getElementById("rate-top-label").appendChild(generateLabels());
+
+
+
+
+        document.getElementById("coment-text").innerHTML = lang.rate.comment;
+
+
+
+        let questions = lang.rate.questions;
+        let questionContainer = document.getElementById("rate-questions");
+
+        for (let i = 0; i < questions.length; i++) {
+            console.log(questions[i]);
+            let q = addQuestion(i, questions[i]);
+            questionContainer.appendChild(q);
+        }
+    }
+
+    function addQuestion(number, questionText, title = false) {
+        let labels = lang.rate.labels;
+
+        let questionRow = document.createElement("DIV");
+        questionRow.setAttribute("class", "row question-row w-100 pt-1 pb-1");
+
+        if (number % 2 == 0)
+            questionRow.classList.add("bg-gray");
+
+        let question = document.createElement("P");
+        question.innerHTML = questionText;
+        question.setAttribute("class", "col-sm-12 col-md-4 pb-0 mb-0");
+
+
+        questionRow.appendChild(question);
+
+
+        let radioCol = document.createElement("DIV");
+        radioCol.setAttribute("class", "col-sm-12 col-md-8 d-flex justify-content-around w-100");
+        let radioRow = document.createElement("DIV");
+        radioRow.setAttribute("class", "row  align-items-end align-items-md-center w-100 row-cols-5 flex-nowrap");
+
+
+        for (let i = 1; i <= labels.length; i++) {
+            let radioContainer = document.createElement("DIV");
+            radioContainer.setAttribute("class", "col text-center d-flex flex-column align-items-center text-wrap");
+
+            let label = document.createElement("LABEL");
+            label.innerHTML = labels[i - 1];
+            label.setAttribute("for", "q" + number + "" + i);
+
+            if (i == 2 || i == 4) {
+                label.classList.add("d-none");
+            }
+
+            label.classList.add("d-md-none");
+
+            let radio = document.createElement("INPUT");
+            radio.setAttribute("type", "radio");
+            radio.setAttribute("name", "q" + number);
+            radio.setAttribute("id", "q" + number + "" + i);
+            radio.setAttribute("value", i);
+            radio.setAttribute("onchange", "ratingEmpty()");
+            radio.setAttribute("class", "d-block");
+
+            radioContainer.appendChild(label);
+            radioContainer.appendChild(radio);
+            radioRow.appendChild(radioContainer);
+            radioCol.appendChild(radioRow);
+        }
+        questionRow.appendChild(radioCol);
+        return questionRow;
+    }
+
+    function generateLabels() {
+        let labels = lang.rate.labels;
+
+        let labelRow = document.createElement("DIV");
+        labelRow.setAttribute("class", "row d-none d-md-block");
+
+        let labelCol = document.createElement("DIV");
+        labelCol.setAttribute("class", "col d-flex justify-content-between text-center");
+
+        labels.forEach(element => {
+            let label = document.createElement("P");
+            label.innerHTML = element;
+            label.setAttribute("class", "col text-wrap");
+
+            labelCol.appendChild(label);
+        });
+
+        labelRow.appendChild(labelCol);
+        return labelRow;
+
+    }
+
+
+</script>

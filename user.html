@@ -1,0 +1,98 @@
+<div id="user-questions"></div>
+
+<script>
+
+    function userEmpty() {
+        if (validateUserValues()) {
+            document.getElementById("nextTab").disabled = false;
+        }
+        else {
+            document.getElementById("nextTab").disabled = true;
+        }
+    }
+
+    function validateUserValues() {
+        let values = getUserValues();
+
+        for (let i = 0; i < values.length; i++) {
+            if (values[i] == "")
+                return false;
+        }
+        return true;
+    }
+
+    function getUserValues() {
+        let values = [];
+        let container = document.getElementById("user-questions");
+        let selected = container.getElementsByTagName("SELECT");
+        let age = document.getElementById("age");
+        values.push(age.value);
+        for (let i = 0; i < selected.length; i++) {
+            values.push(selected[i].value);
+
+        }
+
+        return values;
+    }
+
+    generateSelect();
+
+    function generateSelect() {
+        let questions = lang.user.questions;
+        let questionContainer = document.getElementById("user-questions");
+        for (let i = 0; i < questions.length; i++) {
+
+            let q = addSelect(questions[i]);
+            questionContainer.appendChild(q);
+        }
+    }
+
+    function addSelect(question) {
+        let container = document.createElement("DIV");
+        let label = document.createElement("LABEL");
+        label.innerHTML = question.question;
+        label.setAttribute("for", question.id);
+        container.appendChild(label);
+
+        if (question.id == "age") {
+            let input = document.createElement("INPUT");
+            input.setAttribute("type", "number");
+            input.setAttribute("min", "0");
+            input.setAttribute("class", "form-control");
+            input.setAttribute("id", question.id);
+            input.setAttribute("onchange", "userEmpty()");
+            input.setAttribute("onkeypress", "return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57");
+            container.appendChild(input);
+
+        } else {
+            let select = document.createElement("SELECT");
+            select.setAttribute("class", "form-control");
+            select.setAttribute("id", question.id);
+            select.setAttribute("onchange", "userEmpty()");
+
+            //disabled selected hidden value=""
+            let empty = document.createElement("OPTION");
+            empty.disabled = true;
+            empty.selected = true;
+            empty.hidden = true;
+            empty.value = "";
+            empty.innerHTML = lang.user.choose;
+
+            select.appendChild(empty);
+
+            for (let i = 0; i < question.options.length; i++) {
+                let option = document.createElement("OPTION");
+                option.innerHTML = question.options[i];
+                option.value = question.values[i];
+                select.appendChild(option);
+            }
+
+
+            container.appendChild(select);
+        }
+
+
+        return container;
+    }
+
+</script>

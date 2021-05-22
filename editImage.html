@@ -1,0 +1,131 @@
+<script>
+
+    function resetValues() {
+        let sliders = document.getElementsByClassName("form-control-range");
+        for (let i = 0; i < sliders.length; i++) {
+            sliders[i].value = 0;
+        }
+    }
+
+    function showOriginal() {
+        Caman('#canvas', img, function () {
+            this.revert(false);
+            this.render();
+        });
+    }
+
+
+
+
+    async function editImage(adj = adjustments) {
+        let myPromise = new Promise(function (myResolve, myReject) {
+
+            Caman('#canvas', img, function () {
+                this.revert(false);
+                this.whiteBallance(adj.color.temperature.getValue(), adj.color.tint.getValue());
+                this.exposure(adj.light.exposure.getValue());
+                this.light(adj.light);
+                this.contrast(adj.light.contrast.getValue());
+
+                this.hsl(adj.hsl);
+                this.saturation(adj.color.saturation.getValue());
+                this.vibrance(adj.color.vibrance.getValue());
+
+                this.render();
+
+            });
+
+        });
+        await myPromise;
+    }
+
+    let timeout;
+
+    function updateValue() {
+        updateAllValues();
+        timeout = clearTimeout();
+        timeout = setTimeout(editImage, 100);
+
+    }
+
+
+    function updateAllValues() {
+        adjustments.light.exposure.setValue(document.getElementById("exposure").value);
+        adjustments.light.contrast.setValue(document.getElementById("contrast").value);
+        adjustments.light.shadows.setValue(document.getElementById("shadows").value);
+        adjustments.light.highlights.setValue(document.getElementById("highlights").value);
+        adjustments.light.blacks.setValue(document.getElementById("blacks").value);
+        adjustments.light.whites.setValue(document.getElementById("whites").value);
+
+        adjustments.color.temperature.setValue(document.getElementById("temperature").value);
+        adjustments.color.tint.setValue(document.getElementById("tint").value);
+        adjustments.color.saturation.setValue(document.getElementById("saturation").value);
+        adjustments.color.vibrance.setValue(document.getElementById("vibrance").value);
+
+        adjustments.hsl.red.hue.setValue(document.getElementById("red-hue").value);
+        adjustments.hsl.red.saturation.setValue(document.getElementById("red-saturation").value);
+        adjustments.hsl.red.luminance.setValue(document.getElementById("red-luminance").value);
+
+        adjustments.hsl.yellow.hue.setValue(document.getElementById("yellow-hue").value);
+        adjustments.hsl.yellow.saturation.setValue(document.getElementById("yellow-saturation").value);
+        adjustments.hsl.yellow.luminance.setValue(document.getElementById("yellow-luminance").value);
+
+        adjustments.hsl.green.hue.setValue(document.getElementById("green-hue").value);
+        adjustments.hsl.green.saturation.setValue(document.getElementById("green-saturation").value);
+        adjustments.hsl.green.luminance.setValue(document.getElementById("green-luminance").value);
+
+        adjustments.hsl.cyan.hue.setValue(document.getElementById("cyan-hue").value);
+        adjustments.hsl.cyan.saturation.setValue(document.getElementById("cyan-saturation").value);
+        adjustments.hsl.cyan.luminance.setValue(document.getElementById("cyan-luminance").value);
+
+        adjustments.hsl.blue.hue.setValue(document.getElementById("blue-hue").value);
+        adjustments.hsl.blue.saturation.setValue(document.getElementById("blue-saturation").value);
+        adjustments.hsl.blue.luminance.setValue(document.getElementById("blue-luminance").value);
+
+        adjustments.hsl.magenta.hue.setValue(document.getElementById("magenta-hue").value);
+        adjustments.hsl.magenta.saturation.setValue(document.getElementById("magenta-saturation").value);
+        adjustments.hsl.magenta.luminance.setValue(document.getElementById("magenta-luminance").value);
+    }
+
+    function updateSliders(adj) {
+        document.getElementById("exposure").value = adj.light.exposure.getSliderValue();
+        document.getElementById("contrast").value = adj.light.contrast.getSliderValue();
+        document.getElementById("shadows").value = adj.light.shadows.getSliderValue();
+        document.getElementById("highlights").value = adj.light.highlights.getSliderValue();
+        document.getElementById("blacks").value = adj.light.blacks.getSliderValue();
+        document.getElementById("whites").value = adj.light.whites.getSliderValue();
+
+        document.getElementById("temperature").value = adj.color.temperature.getSliderValue();
+        document.getElementById("tint").value = adj.color.tint.getSliderValue();
+        document.getElementById("saturation").value = adj.color.saturation.getSliderValue();
+        document.getElementById("vibrance").value = adj.color.vibrance.getSliderValue();
+
+        document.getElementById("red-hue").value = adj.hsl.red.hue.getSliderValue();
+        document.getElementById("red-saturation").value = adj.hsl.red.saturation.getSliderValue();
+        document.getElementById("red-luminance").value = adj.hsl.red.luminance.getSliderValue();
+
+        document.getElementById("yellow-hue").value = adj.hsl.yellow.hue.getSliderValue();
+        document.getElementById("yellow-saturation").value = adj.hsl.yellow.saturation.getSliderValue();
+        document.getElementById("yellow-luminance").value = adj.hsl.yellow.luminance.getSliderValue();
+
+        document.getElementById("green-hue").value = adj.hsl.green.hue.getSliderValue();
+        document.getElementById("green-saturation").value = adj.hsl.green.saturation.getSliderValue();
+        document.getElementById("green-luminance").value = adj.hsl.green.luminance.getSliderValue();
+
+        document.getElementById("cyan-hue").value = adj.hsl.cyan.hue.getSliderValue();
+        document.getElementById("cyan-saturation").value = adj.hsl.cyan.saturation.getSliderValue();
+        document.getElementById("cyan-luminance").value = adj.hsl.cyan.luminance.getSliderValue();
+
+        document.getElementById("blue-hue").value = adj.hsl.blue.hue.getSliderValue();
+        document.getElementById("blue-saturation").value = adj.hsl.blue.saturation.getSliderValue();
+        document.getElementById("blue-luminance").value = adj.hsl.blue.luminance.getSliderValue();
+
+        document.getElementById("magenta-hue").value = adj.hsl.magenta.hue.getSliderValue();
+        document.getElementById("magenta-saturation").value = adj.hsl.magenta.saturation.getSliderValue();
+        document.getElementById("magenta-luminance").value = adj.hsl.magenta.luminance.getSliderValue();
+
+
+    }
+
+
+</script>

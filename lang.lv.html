@@ -1,0 +1,188 @@
+<script>
+    let lang = {
+
+        next: "Tālāk",
+
+        intro: {
+            start: "Sākt aptauju",
+            substart: 'Klikšķiniet uz pogas "Tālāk" lai sāktu.'
+        },
+
+        image: {
+            predicted: "Prognozētie uzstādījumi",
+            user: "Bez uzstādījumiem",
+
+            headers: {
+                light: "Gaišuma funkcijas",
+                color: "Krāsu funkcijas",
+                hue: "Atsevišķu krāsu tonis",
+                saturation: "Atsevišķu krāsu piesātinājums",
+                luminance: "Atsevišķu krāsu gaišums"
+            },
+
+            exposure: "Gaišums",
+            contrast: "Kontrasts",
+            highlights: "Gaismas",
+            shadows: "Ēnas",
+            whites: "Baltie toņi",
+            blacks: "Melnie toņi",
+
+            temperature: "Temperatūra",
+            tint: "Nokrāsa",
+            saturation: "Piesātinājums",
+            vibrance: "Košums",
+
+            color: {
+                red: "Sarkans",
+                yellow: "Dzeltens",
+                green: "Zaļš",
+                cyan: "Ciāns",
+                blue: "Zils",
+                magenta: "Fuksīns"
+            }
+        },
+
+        rate: {
+            toplabel: "Lūdzu sniedziet savu novērtējumu sekojošajiem apgalvojumiem:",
+
+            labels: [
+                "Pilnībā nepiekrītu",
+                "Drīzāk nepiekrītu",
+                "Neitrāli",
+                "Drīzāk piekrītu",
+                "Pilnībā piekrītu"],
+
+            questions: [
+                "Es bieži izmantoju attēlu apstrādes lietotnes.",
+                "Attēlu apstrādes funkcijas bija saprotamas un viegli lietojamas.",
+                "Attēlu apstrādes funkcijas ļāva man sasniegt vēlamo attēlu apstrādes rezultātu.",
+
+                "Attēla gaišuma funkcijas ir nepieciešamas, lai sasniegtu man vēlamo attēlu apstrādes rezultātu.",
+                "Attēla krāsas funkcijas ir nepieciešamas, lai sasniegtu man vēlamo attēlu apstrādes rezultātu.",
+                "Atsevišķu krāsu funkcijas ir nepieciešamas, lai sasniegtu man vēlamo attēlu apstrādes rezultātu.",
+
+                "Attēla saturs ietekmēja attēlu apstrādes stila izvēli.",
+
+                "Algoritma paredzētie attēlu apstrādes uzstādijumi palīdzēja attēla apstrādē.",
+                "Es vēlētos lai attēlu apstrādes lietotnes ar laiku apgūtu manu attēlu apstrādes stilu."
+            ],
+
+            comment: "Vieta komentāriem:"
+        },
+
+        user: {
+            choose: "Izvēlieties",
+            questions: [
+                {
+                    id: "gender",
+                    question: "Lūdzu norādiet savu dzimumu:",
+                    values: ["Sieviete", "Vīrietis", "Cits", "Nevēlos norādīt"],
+                    options: ["Sieviete", "Vīrietis", "Cits", "Nevēlos norādīt"]
+                },
+                {
+                    id: "age",
+                    question: "Lūdzu norādiet savu vecumu:"
+                },
+
+                {
+                    id: "education",
+                    question: "Kāda ir Jūsu izglītības joma?",
+                    values: [
+                        "Nav noteikts",
+                        "Dabaszinātes",
+                        "Humanitārās zinātnes",
+                        "Inženierzinātnes",
+                        "Mākslas zinātnes",
+                        "Medicīnas un veselības zinātnes",
+                        "Sociālās zinātnes",
+                        "Cits"
+                    ],
+                    options: [
+                        "Nav noteikts",
+                        "Dabaszinātes",
+                        "Humanitārās zinātnes",
+                        "Inženierzinātnes",
+                        "Mākslas zinātnes",
+                        "Medicīnas un veselības zinātnes",
+                        "Sociālās zinātnes",
+                        "Cits"
+                    ]
+                },
+                {
+                    id: "job",
+                    question: "Kāda ir Jūsu profesiju grupa?",
+                    values: [
+                        "Nav nodarbošanās",
+                        "Biroja darbs un administratīvā darba atbalsts",
+                        "Celtniecība",
+                        "Drošība",
+                        "Ēku un teritoriju tīrīšana un uzturēšana",
+                        "Grāmatvedība, uzņēmējdarbība un finanses",
+                        "Inženierzinātnes",
+                        "IT, matemātika un datorzinātnes",
+                        "Izglītība",
+                        "Ķīmija, farmācija un eksaktās zinātnes",
+                        "Lauksaimniecība, zvejniecība un mežniecība",
+                        "Māksla, dizains, izklaide",
+                        "Sports",
+                        "Mediji un komunikācijas",
+                        "Pārdošana, pakalpojumi un tirdzniecība",
+                        "Veselības aprūpe",
+                        "Psiholoģija un sociālais darbs",
+                        "Ražošana",
+                        "Reklāma un mārketings",
+                        "Skaistumkopšana",
+                        "Tiesību zinātņes",
+                        "Transports un loģistika",
+                        "Tūrisms, viesnīcas un ēdināšana",
+                        "Uzstādīšanas un uzturēšanas mehāniķi",
+                        "Vadītāji",
+                        "Cits"
+                    ],
+                    options: [
+                        "Nav nodarbošanās",
+                        "Biroja darbs un administratīvā darba atbalsts",
+                        "Celtniecība",
+                        "Drošība",
+                        "Ēku un teritoriju tīrīšana un uzturēšana",
+                        "Grāmatvedība, uzņēmējdarbība un finanses",
+                        "Inženierzinātnes",
+                        "IT, matemātika un datorzinātnes",
+                        "Izglītība",
+                        "Ķīmija, farmācija un eksaktās zinātnes",
+                        "Lauksaimniecība, zvejniecība un mežniecība",
+                        "Māksla, dizains, izklaide",
+                        "Sports",
+                        "Mediji un komunikācijas",
+                        "Pārdošana, pakalpojumi un tirdzniecība",
+                        "Veselības aprūpe",
+                        "Psiholoģija un sociālais darbs",
+                        "Ražošana",
+                        "Reklāma un mārketings",
+                        "Skaistumkopšana",
+                        "Tiesību zinātņes",
+                        "Transports un loģistika",
+                        "Tūrisms, viesnīcas un ēdināšana",
+                        "Uzstādīšanas un uzturēšanas mehāniķi",
+                        "Vadītāji",
+                        "Cits"
+                    ]
+                },
+
+                {
+                    id: "photographer",
+                    question: "Vai Jūs esiet fotogrāfs?",
+                    values: ["Jā", "Nē"],
+                    options: ["Jā", "Nē"]
+                }
+            ]
+        },
+        outro: {
+            wait: "Tiek saglabātas atbildes...",
+            end: "Paldies par Jūsu veltīto laiku!",
+            subend: "Jūsu atbildes ir saglabātas."
+        }
+
+    };
+
+</script>

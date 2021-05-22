@@ -1,0 +1,336 @@
+<script>
+    let userID = 0;
+    let adjustments = new Adjustments();
+    let userAdjustments = new Adjustments();
+    let predAdjustments = new Adjustments();
+    let canvas = document.getElementById('canvas');
+    let hcanvas = document.getElementById('hidden-canvas');
+
+
+    let imgArr = [];
+    let currentImg = 0;
+    let img = new Image();
+
+    document.getElementById("nextImage").innerHTML = lang.next;
+    document.getElementById("nextTab").innerHTML = lang.next;
+    document.getElementById("toggleUser").innerHTML = lang.image.user;
+    document.getElementById("togglePredicted").innerHTML = lang.image.predicted;
+
+    addSliders();
+
+    window.onload = function () {
+
+        getImages();
+        document.getElementById("nextImage").style.display = "none";
+    }
+
+
+    function start() {
+        google.script.run.withSuccessHandler(setUserID).getUserId(getDate());
+    }
+
+    function setUserID(id) {
+        userID = id;
+        document.getElementById("nextImage").disabled = false;
+    }
+
+    function getImages() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                loadImages(this);
+            }
+        };
+        xhttp.open("GET", "https://storage.googleapis.com/md_app_img/", true);
+        xhttp.send();
+    }
+
+    function shuffle(array) {
+        var currentIndex = array.length, temporaryValue, randomIndex;
+
+        while (0 !== currentIndex) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+
+        return array;
+    }
+
+    function loadImages(xml) {
+        var xmlDoc = xml.responseXML;
+        let keyArr = xmlDoc.getElementsByTagName("Key");
+        for (let i = 0; i < keyArr.length; i++) {
+            let filename = keyArr[i].childNodes[0].nodeValue;
+            let image = new Image();
+            image.src = "https://storage.googleapis.com/md_app_img/" + filename;
+            image.crossOrigin = 'https://storage.googleapis.com/md_app_img/';
+            imgArr.push(image);
+        }
+
+        imgArr = shuffle(imgArr);
+
+        imgArr[currentImg].onload = function () {
+            img = imgArr[currentImg];
+            setupCanvas()
+        }
+    }
+
+    function setupCanvas() {
+        let container = document.getElementById('img-div').getBoundingClientRect();
+        let width = container.width;
+
+
+        if (container.width > window.innerHeight - 50)
+            width = window.innerHeight - 50;
+
+
+        canvas.width = width;
+        canvas.height = width;
+        let ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        canvas.removeAttribute('data-caman-id');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        let hctx = hcanvas.getContext('2d');
+        hctx.drawImage(img, 0, 0, hcanvas.width, hcanvas.height);
+
+        document.getElementById("imgCount").innerHTML = (currentImg + 1) + " / " + (imgArr.length);
+    }
+
+    function resize() {
+        setupCanvas();
+    }
+
+    var currentTab = 0;
+    showTab(currentTab);
+
+    function showTab(n) {
+
+        var x = document.getElementsByClassName("form-tab");
+        x[n].style.display = "block";
+        if (n == 2)
+            x[n].scrollIntoView();
+        setupCanvas();
+
+    }
+
+
+    function toggleAdjustments(u = false, display = true) {
+        let togglePredicted = document.getElementById("togglePredicted");
+        let toggleUser = document.getElementById("toggleUser");
+
+        if (!togglePredicted.disabled) {
+
+
+            if (u && toggleUser.classList.contains("btn-secondary")) {
+                // switch to user adjustments
+                predAdjustments = adjustments;
+
+                adjustments = userAdjustments;
+
+                togglePredicted.classList.add("btn-secondary");
+                toggleUser.classList.remove("btn-secondary");
+            } else if (!u && togglePredicted.classList.contains("btn-secondary")) {
+                // switch to predicted
+                adjustments = predAdjustments;
+
+                togglePredicted.classList.remove("btn-secondary");
+                toggleUser.classList.add("btn-secondary");
+            }
+            else if (u) {
+                adjustments = new Adjustments();
+            }
+        } else {
+            adjustments = new Adjustments();
+
+        }
+        userAdjustments = new Adjustments();
+
+        if (display) {
+            updateSliders(adjustments);
+            editImage(adjustments);
+        }
+
+    }
+
+    function nextTab(i) {
+        switch (currentTab) {
+            case 0:
+                start();
+                document.getElementById("nextImage").style.display = "block";
+                document.getElementById("nextTab").style.display = "none";
+
+                break;
+            case 1:
+                saveAdjustmentValues("user", true);
+                document.getElementById("nextTab").disabled = true;
+
+                break;
+            case 2:
+                saveRating();
+                document.getElementById("nextTab").disabled = true;
+                break;
+            case 3:
+                saveUserValues();
+                document.getElementById("nextTab").style.display = "none";
+                break;
+        }
+        var x = document.getElementsByClassName("form-tab");
+        x[currentTab].style.display = "none";
+        currentTab = currentTab + i;
+
+        showTab(currentTab);
+    }
+
+
+    function nextImage(i) {
+        document.getElementById("nextImage").disabled = true;
+        document.getElementById("togglePredicted").disabled = false;
+
+        if (currentImg < imgArr.length - 1) {
+
+            saveAdjustmentValues("user");
+            updateML(adjustments);
+
+            // next image
+            currentImg += i;
+
+            img = imgArr[currentImg];
+
+            setupCanvas();
+
+            toggleAdjustments(false, false);
+            userAdjustments = new Adjustments();
+
+            adjustments = predictML();
+            updateSliders(adjustments);
+            updateValue();
+
+
+            if (currentImg == imgArr.length - 1) {
+                document.getElementById("nextImage").style.display = "none";
+                document.getElementById("nextTab").style.display = "block";
+            }
+        }
+    }
+
+
+    function saveAdjustmentValues(who, last = false) {
+        let values = adjustments.getArray();
+        values.unshift(who);
+        values.unshift(imgArr[currentImg].src);
+        values.unshift(currentImg);
+        values.unshift(userID);
+        values.unshift(getDate());
+        if (who == "user" && !last) {
+            google.script.run.withSuccessHandler(savePrediction).saveAdjustments(values);
+        }
+        else {
+
+            google.script.run.withSuccessHandler(function () { document.getElementById("nextImage").disabled = false; }).saveAdjustments(values);
+        }
+    }
+
+    function savePrediction() {
+
+        saveAdjustmentValues("predicted");
+    }
+
+    function saveRating() {
+        let values = getRating();
+        values.unshift(userID);
+        values.unshift(getDate());
+        google.script.run.saveRating(values);
+    }
+
+    function saveUserValues() {
+        let values = getUserValues();
+        values.unshift(userID);
+        values.unshift(getDate());
+        google.script.run.withSuccessHandler(displayEndMessage).saveUserValues(values);
+    }
+
+
+
+
+    function addSliders() {
+
+        let lightSliders = ["exposure", "contrast", "highlights", "shadows", "whites", "blacks"];
+        let colorSliders = ["temperature", "tint", "saturation", "vibrance"];
+        let hslClolors = ["red", "yellow", "green", "cyan", "blue", "magenta"];
+        let hslSliders = ["hue", "saturation", "luminance"];
+
+        let sliderContainer = document.getElementById("slider-container");
+
+        document.getElementById("light").innerHTML = lang.image.headers.light;
+
+
+        lightSliders.forEach(element => {
+            createSliders(element, "light-sliders", "");
+        });
+
+        document.getElementById("color").innerHTML = lang.image.headers.color;
+
+        colorSliders.forEach(element => {
+            createSliders(element, "color-sliders", "");
+        });
+
+        document.getElementById("hsl-hue").innerHTML = lang.image.headers.hue;
+        document.getElementById("hsl-saturation").innerHTML = lang.image.headers.saturation;
+        document.getElementById("hsl-luminance").innerHTML = lang.image.headers.luminance;
+
+
+
+        hslSliders.forEach(element => {
+            hslClolors.forEach(colorElement => {
+                createSliders(element, element + "-hsl-sliders", colorElement);
+            });
+        });
+    }
+
+
+    function createSliders(element, container, color) {
+        let label = document.createElement("LABEL");
+        let id = "";
+        if (color == "") {
+            label.innerHTML = lang.image[element];
+            id = element;
+        }
+        else {
+            label.innerHTML = lang.image.color[color];;
+            id = color + "-" + element;
+        }
+        let sliderContainer = document.getElementById(container);
+
+        let slider = document.createElement("INPUT");
+        slider.setAttribute("id", id);
+        slider.setAttribute("type", "range");
+        slider.setAttribute("class", "form-control-range");
+        slider.setAttribute("min", "-10");
+        slider.setAttribute("max", "10");
+        slider.setAttribute("value", "0");
+        slider.setAttribute("onchange", "updateValue()");
+
+        let anotherdiv = document.createElement("DIV");
+        anotherdiv.setAttribute("class", "d-flex align-middle text-right");
+        let labeldiv = document.createElement("DIV");
+        labeldiv.appendChild(label);
+        let sliderdiv = document.createElement("DIV");
+        sliderdiv.appendChild(slider);
+        sliderdiv.setAttribute("class", "w-100");
+        anotherdiv.appendChild(labeldiv);
+        anotherdiv.appendChild(sliderdiv);
+        sliderContainer.appendChild(anotherdiv);
+    }
+
+    function getDate() {
+        return new Date().toISOString().replace("T", " ").replace("Z", "");
+    }
+
+
+</script>

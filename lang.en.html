@@ -1,0 +1,190 @@
+<script>
+    let lang = {
+
+        next: "Next",
+
+        intro: {
+            start: "Start survey",
+            substart: 'Click on "Next" to start.'
+        },
+
+        image: {
+            predicted: "Predicted adjustments",
+            user: "Without adjustments",
+
+            headers: {
+                light: "Light adjustments",
+                color: "Color adjustments",
+                hue: "Separate color hue",
+                saturation: "Separate color saturation",
+                luminance: "Separate color luminance",
+            },
+
+            exposure: "Brightness",
+            contrast: "Contrast",
+            highlights: "Highlights",
+            shadows: "Shadows",
+            whites: "Whites",
+            blacks: "Blacks",
+
+            temperature: "Temperature",
+            tint: "Tint",
+            saturation: "Saturation",
+            vibrance: "Vibrance",
+
+
+
+            color: {
+                red: "Red",
+                yellow: "Yellow",
+                green: "Green",
+                cyan: "Cyan",
+                blue: "Blue",
+                magenta: "Magenta"
+            }
+        },
+
+        rate: {
+            toplabel: "Please rate the following statements:",
+
+            labels: [
+                "Strongly disagree",
+                "Disagree",
+                "Neutral",
+                "Agree",
+                "Strongly agree"],
+
+            questions: [
+                "I often use photo editing software.",
+                "Photo editing functions were understandeble and easy to use.",
+                "Photo editing functions allowed me to reach my desired photo adjustment goal.",
+
+                "Image light adjustments were necessary in order to achieve my desired goal",
+                "Image color adjustments were necessary in order to achieve my desired goal",
+                "Separate color adjustments were necessary in order to achieve my desired goal",
+
+                "The subjet of the image affected the photo adjustment decisions.",
+
+                "The predicted adjustments helped edit the photos.",
+                "I would like photo editing software to learn my photo editing preferences over time.",
+            ],
+
+            comment: "For comments:"
+        },
+
+        user: {
+            choose: "Choose",
+            questions: [
+                {
+                    id: "gender",
+                    question: "Please select your gender:",
+                    values: ["Sieviete", "Vīrietis", "Cits", "Nevēlos norādīt"],
+                    options: ["Female", "Male", "Other", "Rather not say"]
+                },
+                {
+                    id: "age",
+                    question: "Please type your age:"
+                },
+
+                {
+                    id: "education",
+                    question: "In what field is your education?",
+                    values: [
+                        "Nav noteikts",
+                        "Mākslas zinātnes",
+                        "Inženierzinātnes",
+                        "Medicīnas un veselības zinātnes",
+                        "Humanitārās zinātnes",
+                        "Dabaszinātes",
+                        "Sociālās zinātnes",
+                        "Cits"
+                    ],
+                    options: [
+                        "Not specified",
+                        "Art",
+                        "Engeneering",
+                        "Healthcare",
+                        "Humanitarian sciences",
+                        "Nature sciences",
+                        "Social sciences",
+                        "Other"
+                    ]
+                },
+                {
+                    id: "job",
+                    question: "In what field is your occupation?",
+                    values: [
+                        "Nav nodarbošanās",
+                        "Grāmatvedība, uzņēmējdarbība un finanses",
+                        "Reklāma un mārketings",
+                        "Māksla, dizains, izklaide",
+                        "Ēku un teritoriju tīrīšana un uzturēšana",
+                        "Ķīmija, farmācija un eksaktās zinātnes",
+                        "Celtniecība",
+                        "Izglītība",
+                        "Inženierzinātnes",
+                        "Lauksaimniecība, zvejniecība un mežniecība",
+                        "Veselības aprūpe",
+                        "Uzstādīšanas un uzturēšanas mehāniķi",
+                        "IT, matemātika un datorzinātnes",
+                        "Tiesību zinātņes",
+                        "Vadītāji",
+                        "Mediji un komunikācijas",
+                        "Biroja darbs un administratīvā darba atbalsts",
+                        "Skaistumkopšana",
+                        "Ražošana",
+                        "Drošība",
+                        "Psiholoģija un sociālais darbs",
+                        "Pārdošana, pakalpojumi un tirdzniecība",
+                        "Sports",
+                        "Tūrisms, viesnīcas un ēdināšana",
+                        "Transports un loģistika",
+                        "Cits"
+                    ],
+                    options: [
+                        "No ocupation",
+                        "Accounting, Business Management, and Finance",
+                        "Advertising und Marketing",
+                        "Art, Design, Entertainment",
+                        "Building and Grounds Cleaning and Maintenance",
+                        "Chemistry, Biology, and Science",
+                        "Construction",
+                        "Education",
+                        "Engineering and Construction",
+                        "Farming, Fishing, and Forestry",
+                        "Healthcare",
+                        "Installation and Maintenance mechanics",
+                        "IT, Mathematics, and Computer Science",
+                        "Legal",
+                        "Management",
+                        "Media and Communication",
+                        "Office and Administrative Support",
+                        "Personal Appearance",
+                        "Production and Factory Manufacturing",
+                        "Protective Service",
+                        "Psychological and Social Work",
+                        "Sales, Service, and Retail",
+                        "Sports",
+                        "Tourism, Hotel, and Catering",
+                        "Transportation and Logistics",
+                        "Other"
+                    ]
+                },
+
+                {
+                    id: "photographer",
+                    question: "Are you a photographer?",
+                    values: ["Jā", "Nē"],
+                    options: ["Yes", "No"]
+                }
+            ]
+        },
+        outro: {
+            wait: "Saving answers...",
+            end: "Thank you for your time!",
+            subend: "Your answers have been submitted."
+        }
+
+    };
+
+</script>

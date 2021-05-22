@@ -1,0 +1,105 @@
+<div class="row no-gutters ">
+    <div class="col-6">
+        <button id="togglePredicted" onclick="toggleAdjustments()"
+            class="btn btn-primary  btn-secondary w-100 text-truncate" disabled></button>
+    </div>
+    <div class="col-6">
+        <button id="toggleUser" onclick="toggleAdjustments(true)" class="btn btn-primary  w-100 text-truncate"></button>
+    </div>
+</div>
+
+
+<div class="accordion pt-4" id="accordionExample">
+    <div class="card">
+        <div class="card-header " id="headingOne">
+            <h2 class="mb-0 d-flex">
+                <button class="btn btn-link btn-block text-left " type="button" data-toggle="collapse"
+                    data-target="#collapseLight" aria-expanded="true" aria-controls="collapseLight">
+                    <h6 id="light"></h6>
+                </button>
+            </h2>
+        </div>
+
+        <div id="collapseLight" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+                <div id="light-sliders" class="form-group">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse"
+                    data-target="#collapseColor" aria-expanded="true" aria-controls="collapseColor">
+                    <h6 id="color"></h6>
+                </button>
+            </h2>
+        </div>
+
+        <div id="collapseColor" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+                <div id="color-sliders" class="form-group"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse"
+                    data-target="#collapseHue" aria-expanded="true" aria-controls="collapseHue">
+                    <h6 id="hsl-hue"></h6>
+                </button>
+            </h2>
+        </div>
+
+        <div id="collapseHue" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+                <div id="hue-hsl-sliders" class="form-group"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card">
+        <div class="card-header" id="headingTwo">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse"
+                    data-target="#collapseSaturation" aria-expanded="false" aria-controls="collapseSaturation">
+                    <h6 id="hsl-saturation"></h6>
+                </button>
+            </h2>
+        </div>
+        <div id="collapseSaturation" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+            <div class="card-body">
+                <div id="saturation-hsl-sliders" class="form-group"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card">
+        <div class="card-header" id="headingThree">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse"
+                    data-target="#collapseLuminance" aria-expanded="false" aria-controls="collapseLuminance">
+                    <h6 id="hsl-luminance"></h6>
+                </button>
+            </h2>
+        </div>
+        <div id="collapseLuminance" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+            <div class="card-body">
+                <div id="luminance-hsl-sliders" class="form-group">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<button id="nextImage" onclick="nextImage(1)" class="btn btn-primary btn-lg btn-block mt-4" disabled></button>
+
+</div>

@@ -1,0 +1,18 @@
+<p class="" id="wait"></p>
+<h3 class="" id="outro" hidden>Paldies par dalību aptaujā!</h3>
+<p class="" id="suboutro" hidden></p>
+
+<script>
+    document.getElementById("wait").innerHTML = lang.outro.wait;
+    document.getElementById("outro").innerHTML = lang.outro.end;
+    document.getElementById("suboutro").innerHTML = lang.outro.subend;
+
+
+    function displayEndMessage() {
+        document.getElementById("wait").hidden = true;
+        document.getElementById("outro").hidden = false;
+        document.getElementById("suboutro").hidden = false;
+
+    }
+
+</script>
